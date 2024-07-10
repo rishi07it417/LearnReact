@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import spinner from './spinner.gif';
 
-export default class Loading extends Component {
-  render() {
+const Loading = ()=> {
     return (
       <div className='container'>
         <div className="row">
@@ -13,4 +12,5 @@ export default class Loading extends Component {
       </div>
     )
   }
-}
+
+export default Loading;

@@ -1,114 +1,98 @@
-import React, { Component } from "react";
+import React, { useState,useEffect } from "react";
 import NewsItem from "./NewsItem";
 import Loading from "./Loading";
 import InfiniteScroll from "react-infinite-scroll-component";
+import PropTypes from 'prop-types';
 
-export default class NewsComponent extends Component {
-  articles = [];
 
-  constructor() {
-    super();
+const NewsComponent = (props)=> {
+  const [articles,setArticles]=useState([]);
+  const [totalArticles,setTotalArticles]=useState(0);
+  const [page,setPage]=useState(1);
+  const [loading,setLoading]=useState(true);
+  const [isFirstLoad,setIsFirstLoad] = useState(true);
 
-    this.state = {
-      articles: this.articles,
-      totalArticles: 0,
-      page: 1,
-      loading: true,
-    };
-  }
 
-  fetchData = async () => {
-    console.log(this.props);
-    this.props.setProgress(60);
+  const fetchData = async () => {
+    props.setProgress(60);
     let url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${
-      this.props.newsApiKey
-    }&page=${this.state.page + 1}&category=${this.props.category}&pageSize=18`;
+    props.newsApiKey
+    }&page=${page + 1}&category=${props.category}&pageSize=18`;
+
 
     let data = await fetch(url);
     let parsedData = await data.json();
 
-    this.setState({
-      articles: this.state.articles.concat(parsedData.articles),
-      totalArticles: parsedData.totalResults,
-      loading: false,
-    });
-    this.props.setProgress(100);
+    setArticles(articles.concat(parsedData.articles));
+    setTotalArticles(parsedData.totalResults);
+    setLoading(false);
+    setPage(page+1);
+    
+ 
+    props.setProgress(100);
   };
 
-  async update(move) {
+  const update = async (move) =>{
     console.log("TEST:::::::::::" + move);
-    this.props.setProgress(60);
+    props.setProgress(60);
 
-    let url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${this.props.newsApiKey}&page=${this.state.page}&category=${this.props.category}&pageSize=18`;
+    let url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${props.newsApiKey}&page=${page}&category=${props.category}&pageSize=18`;
 
     if (move === "next") {
       url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${
-        this.props.newsApiKey
-      }&page=${this.state.page + 1}&category=${
-        this.props.category
+        props.newsApiKey
+      }&page=${page + 1}&category=${
+        props.category
       }&pageSize=18`;
 
-      this.setState({ page: this.state.page + 1 });
+      setPage(page+1);
     } else if (move === "previous") {
       url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${
-        this.props.newsApiKey
-      }&page=${this.state.page - 1}&category=${
-        this.props.category
+        props.newsApiKey
+      }&page=${page - 1}&category=${
+        props.category
       }&pageSize=18`;
-      this.setState({ page: this.state.page - 1 });
+      setPage(page-1);
     }
 
     let data = await fetch(url);
     let parsedData = await data.json();
 
-    this.setState({
-      articles: parsedData.articles,
-      totalArticles: parsedData.totalResults,
-      loading: false,
-    });
-    this.props.setProgress(60);
+    setArticles(parsedData.articles);
+    setTotalArticles(parsedData.totalResults);
+    setLoading(false);
+
+   
+    props.setProgress(60);
   }
 
-  async componentDidMount() {
-    console.log("inside component did mount");
-    this.setState({ loading: true, articles: [] });
 
-    this.fetchData();
-  }
+  useEffect(() => {
+    console.log('inside use effect');
+    if(isFirstLoad){
+      setIsFirstLoad(false);
+      setLoading(true);
+      fetchData();
+    }
+  },[isFirstLoad,fetchData]);
 
-  handlePreviousClick = async () => {
-    console.log("previous clicked");
-
-    this.setState({ loading: true, articles: [] });
-    this.update("previous");
-  };
-
-  handleNextClick = async () => {
-    console.log("next clicked");
-    this.setState({ loading: true, articles: [] });
-    this.update("next");
-  };
-
-  render() {
-    console.log("render");
+  console.log(articles.length);
+  console.log(totalArticles);
     return (
+     
       <>
-        {this.state.loading && <Loading></Loading>}
+        {loading && <Loading></Loading>}
           <InfiniteScroll
-            dataLength={this.articles.length} //This is important field to render the next data
-            next={this.fetchData}
-            hasMore={this.state.articles.length !== this.state.totalArticles}
-            loader={this.state.loading && <Loading />}
-            endMessage={
-              <p style={{ textAlign: "center" }}>
-                <b>Yay! You have seen it all</b>
-              </p>
-            }
+            dataLength={articles.length} //This is important field to render the next data
+            next={fetchData}
+            hasMore={articles.length !== totalArticles}
+            loader={loading && <Loading />}
+           
           >
                     <div className="container my-3 ">
 
             <div className="row">
-              {this.state.articles.map((element, index) => {
+              {articles.map((element, index) => {
                 return (
                   <div className="col-md-4" key={index}>
                     {" "}
@@ -153,5 +137,13 @@ export default class NewsComponent extends Component {
         */}
       </>
     );
-  }
+  
 }
+
+NewsComponent.propTypes = { 
+  category : PropTypes.string,
+  newsApiKey : PropTypes.string,
+  setProgress : PropTypes.any
+}
+
+export default NewsComponent;
