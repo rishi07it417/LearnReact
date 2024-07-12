@@ -1,9 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-export default class NewsItem extends Component {
-  render() {
 
-    let {myId,title,text,imageurl,detailurl}=this.props;
+const NewsItem = (props)=> {
+
+    let {title,text,imageurl,detailurl}=props;
 
     return (
          <div className="card" >
@@ -16,4 +17,13 @@ export default class NewsItem extends Component {
         </div>  
     )
   }
+
+
+  NewsItem.propTypes = { 
+    title : PropTypes.string,
+    text : PropTypes.string,
+    imageurl : PropTypes.string,
+    detailurl : PropTypes.string
 }
+
+export default NewsItem; 
