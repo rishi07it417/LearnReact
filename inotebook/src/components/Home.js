@@ -1,9 +1,10 @@
 import React from 'react'
+import Notes from './Notes'
 
 const Home = () => {
   return (
     <div>
-      home
+      <Notes></Notes>
     </div>
   )
 }
