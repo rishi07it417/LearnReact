@@ -115,17 +115,37 @@ const NoteState = (props)=>{
        }
     }
 
-    const editNote = (title,description,tag,id)=>{
-        setNotes(notes.map((el)=>{
-            if(el._id === id){
-                el.title = title;
-                el.description = description;
-                if(tag){
-                    el.tag = tag;
-                }
-                return;
-            }
-        }));
+    const editNote = async(title,description,tag,id)=>{
+      try {
+        const note = {
+          title : title,
+          description : description
+        };
+
+        let data = await fetch(url+'/updateNote/'+id,{ method: 'put',
+            headers: new Headers({
+                'authToken': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjY5MGE2MTZkZDY1NWU5MDQxOTMwZTg1In0sImlhdCI6MTcyMDg0NjI3M30.PeIG_b_Ss77x0PeTBqEGYP3-9fnG9ybNdwftAw21ODg', 
+                'Content-Type': 'application/json'
+            }),
+            body:JSON.stringify(note), 
+          });
+    
+        let parsedData = await data.json();
+        console.log(parsedData);
+        fetchData();
+   } catch (e) {
+     console.log(e);
+   }
+        // setNotes(notes.map((el)=>{
+        //     if(el._id === id){
+        //         el.title = title;
+        //         el.description = description;
+        //         if(tag){
+        //             el.tag = tag;
+        //         }
+        //         return;
+        //     }
+        // }));
     }
 
     return (

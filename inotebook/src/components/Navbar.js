@@ -24,6 +24,13 @@ const Navbar = ()=> {
                     </li>
                    
                 </ul>
+                <form className="d-flex">
+                      <Link className="nav-link"  to="/about"><button className="btn btn-primary" >Login</button></Link>
+                      <Link className="nav-link"  to="/"><button className="btn btn-primary mx-3" >Sign up</button></Link>
+                      
+                      
+
+                </form>
                 
                 </div>
             </div>
