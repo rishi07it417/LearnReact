@@ -1,17 +1,22 @@
-export const despositMoney =(amount)=>{
+import {WITHDRAW_MONEY,DEPOSIT_MONEY} from '../stateConstant'
+
+export const despositMoney =(data)=>{
+    console.log('Action Deposit Money Data :'+data);
+
     return (dispatch)=>{
         dispatch({
-            type:'deposit',
-            payload:amount
+            type:DEPOSIT_MONEY,
+            payload:data
         });
     }
 }
 
-export const withdrawMoney =(amount)=>{
+export const withdrawMoney =(data)=>{
+    console.log('Action Withdraw Money Data :'+data);
     return (dispatch)=>{
         dispatch({
-            type:'withdraw',
-            payload:amount
+            type:WITHDRAW_MONEY,
+            payload:data
         });
     }
 }
