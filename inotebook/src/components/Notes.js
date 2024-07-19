@@ -3,22 +3,29 @@ import NoteItem from "./NoteItem";
 import Loading from "./Loading";
 import PropTypes from 'prop-types';
 import noteContext from '../contexts/NoteContext'
+import { useNavigate} from 'react-router-dom'
 
 
 
 const Notes = (props)=> {
 
-  console.log(noteContext.Provider);
+  const navigate = useNavigate();
+
   const a = useContext(noteContext);
   const [note,setNote] = useState({title:"",description:"",tag:"general"});
   const [isFirstLoad,setIsFirstLoad] = useState(true);
   
   useEffect(() => {
     console.log('inside use effect');
-    if(isFirstLoad){
-      setIsFirstLoad(false);
-      a.fetchData();
-    }
+    if(!localStorage.getItem('authToken')){
+       navigate('/login');
+     }else{
+      if(isFirstLoad){
+        setIsFirstLoad(false);
+        a.fetchData();
+      }
+     }
+    
   },[isFirstLoad,a]);
  
   const handleElementChange = (e)=>{

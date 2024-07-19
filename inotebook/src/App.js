@@ -2,6 +2,11 @@ import React,{useState} from 'react';
 import Navbar from './components/Navbar'
 import About from './components/About'
 import Home from './components/Home'
+import LoginCmp from './components/LoginCmp'
+import SignUpCmp from './components/SignUpCmp';
+import { useNavigate  } from "react-router-dom";
+
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -13,6 +18,7 @@ import NoteState from './contexts/NoteState';
 const App = () => {
   const [progress,setProgress]=useState(0);
 
+ 
   return (
     <>
     <NoteState>
@@ -23,6 +29,10 @@ const App = () => {
              <Route  path="/"  element={<Home></Home>}>
              </Route>
              <Route  path="/about"  element={<About></About>}>
+             </Route>
+             <Route  path="/login"  element={<LoginCmp></LoginCmp>}>
+             </Route>
+             <Route  path="/signUp"  element={<SignUpCmp></SignUpCmp>}>
              </Route>
            </Routes>
      </Router>

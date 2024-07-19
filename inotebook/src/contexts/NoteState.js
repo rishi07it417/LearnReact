@@ -3,50 +3,6 @@ import NoteContext from "./NoteContext";
 
 const NoteState = (props)=>{
 
-    const noteArr=[
-        {
-          "_id": "6690d0af984d7edb5e4e273e1",
-          "user": "6690a616dd655e9041930e85",
-          "title": "Test Title",
-          "description": "Test Desc",
-          "tag": "general",
-          "date": "2024-07-12T06:43:59.018Z",
-          "__v": 0
-        }, {
-          "_id": "6690d0af984d7edb5e4e273e2",
-          "user": "6690a616dd655e9041930e85",
-          "title": "Test Title",
-          "description": "Test Desc",
-          "tag": "general",
-          "date": "2024-07-12T06:43:59.018Z",
-          "__v": 0
-        }, {
-          "_id": "6690d0af984d7edb5e4e273e3",
-          "user": "6690a616dd655e9041930e85",
-          "title": "Test Title",
-          "description": "Test Desc",
-          "tag": "general",
-          "date": "2024-07-12T06:43:59.018Z",
-          "__v": 0
-        }, {
-          "_id": "6690d0af984d7edb5e4e273e4",
-          "user": "6690a616dd655e9041930e85",
-          "title": "Test Title",
-          "description": "Test Desc",
-          "tag": "general",
-          "date": "2024-07-12T06:43:59.018Z",
-          "__v": 0
-        }, {
-          "_id": "6690d0af984d7edb5e4e273e5",
-          "user": "6690a616dd655e9041930e85",
-          "title": "Test Title",
-          "description": "Test Desc",
-          "tag": "general",
-          "date": "2024-07-12T06:43:59.018Z",
-          "__v": 0
-        }
-      ];
-
     let url = `http://localhost:3001/api/notes`;
 
     const [notes,setNotes] = useState([]);
@@ -57,7 +13,7 @@ const NoteState = (props)=>{
             setLoading(true);
             let data = await fetch(url+'/fetchAllNotes',{ method: 'post', 
                 headers: new Headers({
-                    'authToken': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjY5MGE2MTZkZDY1NWU5MDQxOTMwZTg1In0sImlhdCI6MTcyMDg0NjI3M30.PeIG_b_Ss77x0PeTBqEGYP3-9fnG9ybNdwftAw21ODg', 
+                    'authToken': localStorage.getItem('authToken'),
                     'Content-Type': 'application/json'
                 })});
         
@@ -86,7 +42,7 @@ const NoteState = (props)=>{
             let data = await fetch(url+'/addNotes',{ method: 'post',
                 body:JSON.stringify(note), 
                 headers: new Headers({
-                    'authToken': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjY5MGE2MTZkZDY1NWU5MDQxOTMwZTg1In0sImlhdCI6MTcyMDg0NjI3M30.PeIG_b_Ss77x0PeTBqEGYP3-9fnG9ybNdwftAw21ODg', 
+                    'authToken': localStorage.getItem('authToken'),
                     'Content-Type': 'application/json'
                 })});
         
@@ -103,7 +59,7 @@ const NoteState = (props)=>{
            
             let data = await fetch(url+'/deleteNote/'+id,{ method: 'delete',
                 headers: new Headers({
-                    'authToken': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjY5MGE2MTZkZDY1NWU5MDQxOTMwZTg1In0sImlhdCI6MTcyMDg0NjI3M30.PeIG_b_Ss77x0PeTBqEGYP3-9fnG9ybNdwftAw21ODg', 
+                    'authToken': localStorage.getItem('authToken'),
                     'Content-Type': 'application/json'
                 })});
         
@@ -124,7 +80,7 @@ const NoteState = (props)=>{
 
         let data = await fetch(url+'/updateNote/'+id,{ method: 'put',
             headers: new Headers({
-                'authToken': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjY5MGE2MTZkZDY1NWU5MDQxOTMwZTg1In0sImlhdCI6MTcyMDg0NjI3M30.PeIG_b_Ss77x0PeTBqEGYP3-9fnG9ybNdwftAw21ODg', 
+                'authToken': localStorage.getItem('authToken'),
                 'Content-Type': 'application/json'
             }),
             body:JSON.stringify(note), 

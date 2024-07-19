@@ -2,8 +2,29 @@ import React from 'react'
 import {
     Link
   } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { actionCreators } from '../state/reduxIndex';
+import { useNavigate  } from "react-router-dom";
+
 
 const Navbar = ()=> {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const login = useSelector(state=>state.login);
+
+   let isLoggedIn=false;
+   if(localStorage.getItem('authToken')){
+    isLoggedIn=true;
+   }
+
+   const handleSignOut = async()=>{
+     const newState = await dispatch(actionCreators.logout({name:"",email:"",password:""}));
+     if(!localStorage.getItem('authToken')){
+      navigate('/login');
+    }
+    
+   }
+
  
     return (
       <>
@@ -25,9 +46,10 @@ const Navbar = ()=> {
                    
                 </ul>
                 <form className="d-flex">
-                      <Link className="nav-link"  to="/about"><button className="btn btn-primary" >Login</button></Link>
-                      <Link className="nav-link"  to="/"><button className="btn btn-primary mx-3" >Sign up</button></Link>
-                      
+                      <Link className="nav-link"  to="/login"><button hidden={isLoggedIn} className="btn btn-primary" >Login</button></Link>
+                      <Link className="nav-link"  to="/signUp"><button hidden={isLoggedIn} className="btn btn-primary mx-3" >Sign up</button></Link>
+                      <button hidden={!isLoggedIn} onClick={handleSignOut} className="btn btn-primary mx-3" >Sign Out</button>
+      
                       
 
                 </form>
